@@ -1,19 +1,16 @@
-import { useEffect, useState } from 'react'
-
-let renderCount = 1
+import { useEffect, useRef, useState } from 'react'
 
 const App = () => {
-  // const [renderCount, setRenderCount] = useState(1)
   const [value, setValue] = useState('initial')
+  const renderCount = useRef(1)
 
   useEffect(() => {
-    // setRenderCount((prevRenderCount) => prevRenderCount + 1)
-    renderCount++
+    renderCount.current++
   })
 
   return (
     <div>
-      <h1>Количество рендеров: {renderCount}</h1>
+      <h1>Количество рендеров: {renderCount.current}</h1>
       <input
         type="text"
         onChange={(event) => setValue(event.target.value)}
