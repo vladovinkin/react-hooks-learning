@@ -1,23 +1,15 @@
 import Main from './Main'
-import Alert from './Alert'
-import { createContext, useState } from 'react'
-
-export const AlertContext = createContext(false)
+import Alert from './alert/Alert'
+import { AlertProvider } from './alert/AlertContext'
 
 const App = () => {
-  const [alert, setAlert] = useState(false)
-
-  const toggleAlert = () => {
-    setAlert((prev) => !prev)
-  }
-
   return (
-    <AlertContext.Provider value={alert}>
+    <AlertProvider>
       <div className={'container pt-3'}>
         <Alert />
-        <Main toggle={toggleAlert} />
+        <Main />
       </div>
-    </AlertContext.Provider>
+    </AlertProvider>
   )
 }
 

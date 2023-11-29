@@ -1,12 +1,11 @@
-type mainProps = {
-  toggle: () => void
-}
+import { useAlert } from './alert/AlertContext'
 
-const Main = (props: mainProps) => {
+const Main = () => {
+  const alert = useAlert()
   return (
     <>
       <h1>Привет в примере с Context</h1>
-      <button onClick={props.toggle} className="btn btn-success">
+      <button onClick={alert.toggle} className="btn btn-success">
         Показать alert
       </button>
     </>
