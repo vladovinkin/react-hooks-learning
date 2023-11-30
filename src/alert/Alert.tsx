@@ -1,12 +1,12 @@
 import { useAlert } from './AlertContext'
 
 const Alert = () => {
-  const { visible, toggle } = useAlert()
+  const { visible, hide } = useAlert()
 
   if (!visible) return null
 
   return (
-    <div onClick={toggle} className={'alert alert-danger'}>
+    <div onClick={hide} className={'alert alert-danger'}>
       Это очень и очень важное сообщение
     </div>
   )

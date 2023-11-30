@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import React, { createContext, ReactNode, useContext, useReducer } from 'react'
 
 type alertProviderProps = {
   children: ReactNode[] | ReactNode
@@ -6,8 +6,12 @@ type alertProviderProps = {
 
 interface AlertContextProps {
   visible: boolean
-  toggle: () => void
+  show: () => void
+  hide: () => void
 }
+
+const SHOW_ALERT = 'show'
+const HIDE_ALERT = 'hide'
 
 const AlertContext = createContext({} as AlertContextProps)
 
@@ -15,18 +19,38 @@ export const useAlert = () => {
   return useContext(AlertContext)
 }
 
-export const AlertProvider = (props: alertProviderProps) => {
-  const [alert, setAlert] = useState(false)
-
-  const toggle = () => {
-    setAlert((prev) => !prev)
+const reducer = (state: { visible: boolean }, action: { type: string }) => {
+  switch (action.type) {
+    case SHOW_ALERT:
+      return {
+        ...state,
+        visible: true,
+      }
+    case HIDE_ALERT:
+      return {
+        ...state,
+        visible: false,
+      }
+    default:
+      return state
   }
+}
+
+export const AlertProvider = (props: alertProviderProps) => {
+  const [state, dispatch] = useReducer(reducer, {
+    visible: false,
+  })
+
+  const show = () => dispatch({ type: SHOW_ALERT })
+  const hide = () => dispatch({ type: HIDE_ALERT })
+  const { visible } = state
 
   return (
     <AlertContext.Provider
       value={{
-        visible: alert,
-        toggle,
+        visible,
+        show,
+        hide,
       }}
     >
       {props.children}
